@@ -1,0 +1,5 @@
+# Endurecimiento básico (Apache)
+Options -Indexes
+<FilesMatch "\.(sql|md|log|ini|env|bak)$">
+    Require all denied
+</FilesMatch>

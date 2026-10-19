@@ -1,0 +1,48 @@
+== VUL-001 SQLi/IDOR: parámetro id ==
+[OK]    id válido -> 200 (esperado 200, obtenido 200)
+[OK]    id con sintaxis SQL en index.php -> 400 (esperado 400, obtenido 400)
+[OK]    id con comilla en index.php -> 400 (esperado 400, obtenido 400)
+[OK]    id con sintaxis SQL en mostrar_carrito -> 400 (esperado 400, obtenido 400)
+[OK]    id inexistente -> 404 (esperado 404, obtenido 404)
+[OK]    id como arreglo -> 400 (esperado 400, obtenido 400)
+[OK]    mostrar_carrito válido -> 200 (esperado 200, obtenido 200)
+[OK]    sin mensajes de error SQL en respuesta
+== VUL-002 Carrito: CSRF, validación e IDOR de ítems ==
+[OK]    carrito sin token CSRF -> 403 (esperado 403, obtenido 403)
+[OK]    carrito por GET -> 405 (esperado 405, obtenido 405)
+[OK]    agregar ítem válido -> 200 (esperado 200, obtenido 200)
+[OK]    iditems con sintaxis SQL -> 400 (esperado 400, obtenido 400)
+[OK]    ítem eliminado (id 3) no agregable -> 404 (esperado 404, obtenido 404)
+[OK]    ítem inexistente -> 404 (esperado 404, obtenido 404)
+[OK]    IDOR: ítem del restaurante 1 no agregable desde restaurante 2 -> 404 (esperado 404, obtenido 404)
+[OK]    operación desconocida -> 400 (esperado 400, obtenido 400)
+[OK]    carrito muestra el ítem agregado
+[OK]    vaciar carrito -> 200 (esperado 200, obtenido 200)
+[OK]    vaciar carrito no destruye la sesión (token sigue válido)
+== VUL-003 Autenticación ==
+[OK]    login sin token CSRF -> 403 (esperado 403, obtenido 403)
+[OK]    bypass clásico de login no autentica
+[OK]    contraseña errónea no autentica
+[OK]    credenciales correctas autentican
+[OK]    el ID de sesión cambia al autenticar (anti fijación)
+[OK]    cookie de sesión HttpOnly
+[OK]    cookie de sesión SameSite
+[OK]    cabecera X-Content-Type-Options
+[OK]    cabecera Content-Security-Policy
+== VUL-004/005 Comentarios y XSS ==
+[OK]    comentar sin sesión -> 403 (esperado 403, obtenido 403)
+[OK]    comentar sin CSRF (con sesión) -> 403 (esperado 403, obtenido 403)
+[OK]    comentario válido -> 302 (esperado 302, obtenido 302)
+[OK]    HTML del comentario se muestra escapado
+[OK]    no hay <script> inyectado en la página
+[OK]    el autor no se puede suplantar
+[OK]    autor = usuario de la sesión
+[OK]    parámetro keyid reflejado ya no existe
+== Cierre de sesión ==
+[OK]    logout por GET no cierra sesión (302 sin efecto) (esperado 302, obtenido 302)
+[OK]    sesión sigue activa tras GET
+[OK]    logout por POST con CSRF cierra sesión
+== Anti fuerza bruta ==
+[OK]    tras 5 fallos el login responde 429 (esperado 429, obtenido 429)
+
+RESULTADO: 40 OK, 0 fallas
